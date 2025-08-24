@@ -115,18 +115,35 @@
         return;
       }
 
-      const baseText = "ا ل ل ه ل ا ا ل ه ا ل ا ھ و ا ل ح ی ا ل ق ى و م ل ا ت ا خ ذ ه س ن ة و ل ا ن و م ل ه م ا ف ى ا ل س م و ت و ا ل ا ر ض م ن ذ ا ل ذ ى ى ش ف ع ع ن د ه ا ل ا ب ا ذ ن ه ی ع ل م م ا ب ی ن ا ی د ی ه م و م ا خ ل ف ه م و ل ا ی ح ی ط و ن ب ش ی م ن ع ل م ه ا ل ا ب م ا ش ا ء و س ع ک ر س ی ه ا ل س م و ت و ا ل ا ر ض و ل ا ی و د ه ح ف ظ ھ م ا و ه و ا ل ع ل ى ا ل ع ظ ى م";
+      // ✅ Updated base text
+      const baseText = "ا ل ل ه ل ا ا ل ه ا ل ا ھ و ا ل ح ی ا ل ق ى و م ل ا ت ا خ ذ ه س ن ة و ل ا ن و م ل ه م ا ف ى ا ل س م و ت و م ا ف ی ا ل ا ر ض م ن ذ ا ا ل ذ ى ى ش ف ع ع ن د ه ا ل ا ب ا ذ ن ه ی ع ل م م ا ب ی ن ا ی د ی ه م و م ا خ ل ف ه م و ل ا ی ح ی ط و ن ب ش ی م ن ع ل م ه ا ل ا ب م ا ش ا ء و س ع ک ر س ی ه ا ل س م و ت و ا ل ا ر ض و ل ا ی و د ه ح ف ظ ھ م ا و ه و ا ل ع ل ى ا ل ع ظ ى م";
 
       const baseWords = baseText.split(" ");
       const inputLetters = input.split("");
-      let result = "";
+      let blended = [];
 
+      // ✅ Blending loop
       for (let i = 0; i < baseWords.length; i++) {
-        const letter = inputLetters[i % inputLetters.length];
-        result += baseWords[i] + " " + `<span class="inserted">${letter}</span> `;
+        if (i === baseWords.length - 1) {
+          // Last word only from Ayat al-Kursi
+          blended.push(baseWords[i]);
+        } else {
+          const letter = inputLetters[i % inputLetters.length];
+          blended.push(baseWords[i]);
+          blended.push(`<span class="inserted">${letter}</span>`);
+        }
       }
 
-      output.innerHTML = result.trim();
+      // ✅ Now group into words of 5 letters
+      let grouped = "";
+      for (let i = 0; i < blended.length; i++) {
+        grouped += blended[i];
+        if ((i + 1) % 5 === 0) {
+          grouped += " "; // add space every 5 letters
+        }
+      }
+
+      output.innerHTML = grouped.trim();
     });
   </script>
 </body>

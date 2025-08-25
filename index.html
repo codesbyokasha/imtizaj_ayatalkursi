@@ -7,10 +7,6 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Noto Naskh Arabic', serif;
       background: linear-gradient(to bottom right, #f8fafd, #e0ecf8);
@@ -25,7 +21,6 @@
     h1 {
       font-size: 1.8em;
       margin-bottom: 20px;
-      color: #333;
       text-align: center;
     }
 
@@ -38,7 +33,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
-    input {
+    input, select {
       font-size: 1.1em;
       width: 100%;
       padding: 14px;
@@ -63,7 +58,7 @@
       background: #0056b3;
     }
 
-    #output {
+    .output-box {
       margin-top: 25px;
       background-color: #f9f9f9;
       border: 1px solid #ddd;
@@ -87,11 +82,12 @@
       }
 
       input,
-      button {
+      button,
+      select {
         font-size: 1em;
       }
 
-      #output {
+      .output-box {
         font-size: 1.1em;
       }
     }
@@ -102,30 +98,49 @@
     <h1>امتزاج آیت الکرسی</h1>
     <input id="inputWord" type="text" placeholder="مثلاً: سلیم یا م ح م د">
     <button id="imtizaajButton">امتزاج کریں</button>
-    <div id="output"></div>
+    
+    <!-- بعد میں یوزر سے گروپ سائز پوچھنے کے لیے -->
+    <div id="groupOptions" style="display:none; margin-top:15px;">
+      <label for="groupSize">کتنے حروف کا مجموعہ بنائیں؟</label>
+      <select id="groupSize">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <button id="groupButton">مجموعہ بنائیں</button>
+    </div>
+
+    <h2 style="margin-top:20px;">🔹 ابتدائی امتزاج</h2>
+    <div id="output" class="output-box"></div>
+
+    <h2 style="margin-top:20px;">🔹 مجموعہ (گروپڈ)</h2>
+    <div id="groupedOutput" class="output-box"></div>
   </div>
 
   <script>
+    let blended = []; // امتزاج کے بعد ذخیرہ
+
     document.getElementById("imtizaajButton").addEventListener("click", function () {
       const input = document.getElementById("inputWord").value.replace(/\s+/g, '');
       const output = document.getElementById("output");
+      const groupedOutput = document.getElementById("groupedOutput");
 
       if (input.length === 0) {
         output.innerHTML = "<span style='color:red'>براہ کرم کوئی لفظ درج کریں۔</span>";
+        groupedOutput.innerHTML = "";
         return;
       }
 
-      // ✅ Updated base text
+      // ✅ Base text
       const baseText = "ا ل ل ه ل ا ا ل ه ا ل ا ھ و ا ل ح ی ا ل ق ى و م ل ا ت ا خ ذ ه س ن ة و ل ا ن و م ل ه م ا ف ى ا ل س م و ت و م ا ف ی ا ل ا ر ض م ن ذ ا ا ل ذ ى ى ش ف ع ع ن د ه ا ل ا ب ا ذ ن ه ی ع ل م م ا ب ی ن ا ی د ی ه م و م ا خ ل ف ه م و ل ا ی ح ی ط و ن ب ش ی م ن ع ل م ه ا ل ا ب م ا ش ا ء و س ع ک ر س ی ه ا ل س م و ت و ا ل ا ر ض و ل ا ی و د ه ح ف ظ ھ م ا و ه و ا ل ع ل ى ا ل ع ظ ى م";
 
       const baseWords = baseText.split(" ");
       const inputLetters = input.split("");
-      let blended = [];
+      blended = [];
 
       // ✅ Blending loop
       for (let i = 0; i < baseWords.length; i++) {
         if (i === baseWords.length - 1) {
-          // Last word only from Ayat al-Kursi
           blended.push(baseWords[i]);
         } else {
           const letter = inputLetters[i % inputLetters.length];
@@ -134,16 +149,27 @@
         }
       }
 
-      // ✅ Now group into words of 5 letters
+      // show normal blended output first
+      output.innerHTML = blended.join(" ");
+      groupedOutput.innerHTML = ""; // reset
+
+      // show group options
+      document.getElementById("groupOptions").style.display = "block";
+    });
+
+    document.getElementById("groupButton").addEventListener("click", function () {
+      const groupSize = parseInt(document.getElementById("groupSize").value);
+      const groupedOutput = document.getElementById("groupedOutput");
+
       let grouped = "";
       for (let i = 0; i < blended.length; i++) {
         grouped += blended[i];
-        if ((i + 1) % 5 === 0) {
-          grouped += " "; // add space every 5 letters
+        if ((i + 1) % groupSize === 0) {
+          grouped += " "; // space after group
         }
       }
 
-      output.innerHTML = grouped.trim();
+      groupedOutput.innerHTML = grouped.trim();
     });
   </script>
 </body>

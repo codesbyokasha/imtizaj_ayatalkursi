@@ -1,176 +1,170 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>امتزاج آیت الکرسی</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap');
+<!DOCTYPE html> 
+<html lang="ar" dir="rtl"> 
+<head>   
+<meta charset="UTF-8">   
+<meta name="viewport" content="width=device-width, initial-scale=1.0">   
+<title>امتزاج آیت الکرسی</title>   
+<style>     
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap');      
 
-    body {
-      font-family: 'Noto Naskh Arabic', serif;
-      background: linear-gradient(to bottom right, #f8fafd, #e0ecf8);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #222;
-    }
+body {       
+font-family: 'Noto Naskh Arabic', serif;       
+background: linear-gradient(to bottom right, #f8fafd, #e0ecf8);       
+margin: 0;       
+padding: 20px;       
+display: flex;       
+flex-direction: column;       
+align-items: center;       
+color: #222;     
+}      
 
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      text-align: center;
-    }
+h1 {       
+font-size: 1.8em;       
+margin-bottom: 20px;       
+text-align: center;     
+}      
 
-    .container {
-      width: 100%;
-      max-width: 800px;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
+.container {       
+width: 100%;       
+max-width: 800px;       
+background: #ffffff;       
+padding: 20px;       
+border-radius: 16px;       
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);     
+}      
 
-    input, select {
-      font-size: 1.1em;
-      width: 100%;
-      padding: 14px;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+input, select {       
+font-size: 1.1em;       
+width: 100%;       
+padding: 14px;       
+border: 2px solid #ccc;       
+border-radius: 8px;       
+margin-bottom: 15px;     
+}      
 
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 1.1em;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
+button {       
+width: 100%;       
+padding: 14px;       
+font-size: 1.1em;       
+background: #007bff;       
+color: white;       
+border: none;       
+border-radius: 8px;       
+cursor: pointer;       
+transition: background 0.3s ease;     
+}      
 
-    button:hover {
-      background: #0056b3;
-    }
+button:hover {       
+background: #0056b3;     
+}      
 
-    .output-box {
-      margin-top: 25px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      padding: 20px;
-      font-size: 1.3em;
-      line-height: 2.2;
-      border-radius: 12px;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      text-align: justify;
-    }
+.output-box {       
+margin-top: 25px;       
+background-color: #f9f9f9;       
+border: 1px solid #ddd;       
+padding: 20px;       
+font-size: 1.3em;       
+line-height: 2.2;       
+border-radius: 12px;       
+white-space: pre-wrap;       
+word-wrap: break-word;       
+text-align: justify;     
+}      
 
-    .inserted {
-      color: crimson;
-      font-weight: bold;
-    }
+.inserted {       
+color: crimson;       
+font-weight: bold;     
+}      
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
+@media (max-width: 600px) {       
+h1 {         
+font-size: 1.5em;       
+}        
 
-      input,
-      button,
-      select {
-        font-size: 1em;
-      }
+input,       
+button,       
+select {         
+font-size: 1em;       
+}        
 
-      .output-box {
-        font-size: 1.1em;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>امتزاج آیت الکرسی</h1>
-    <input id="inputWord" type="text" placeholder="مثلاً: سلیم یا م ح م د">
-    <button id="imtizaajButton">امتزاج کریں</button>
-    
-    <!-- بعد میں یوزر سے گروپ سائز پوچھنے کے لیے -->
-    <div id="groupOptions" style="display:none; margin-top:15px;">
-      <label for="groupSize">کتنے حروف کا مجموعہ بنائیں؟</label>
-      <select id="groupSize">
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-      <button id="groupButton">مجموعہ بنائیں</button>
-    </div>
+.output-box {         
+font-size: 1.1em;       
+}     
+}   
+</style> 
+</head> 
+<body>   
+<div class="container">     
+<h1>امتزاج آیت الکرسی</h1>     
+<input id="inputWord" type="text" placeholder="مثلاً: سلیم یا م ح م د">     
+<button id="imtizaajButton">امتزاج کریں</button>          
+<div id="groupOptions" style="display:none; margin-top:15px;">       
+<label for="groupSize">کتنے حروف کا مجموعہ بنائیں؟</label>       
+<select id="groupSize">         
+<option value="3">3</option>         
+<option value="4">4</option>         
+<option value="5">5</option>       
+</select>       
+<button id="groupButton">مجموعہ بنائیں</button>     
+</div>      
 
-    <h2 style="margin-top:20px;">🔹 ابتدائی امتزاج</h2>
-    <div id="output" class="output-box"></div>
+<h2 style="margin-top:20px;">🔹 ابتدائی امتزاج</h2>     
+<div id="output" class="output-box"></div>      
 
-    <h2 style="margin-top:20px;">🔹 مجموعہ (گروپڈ)</h2>
-    <div id="groupedOutput" class="output-box"></div>
-  </div>
+<h2 style="margin-top:20px;">🔹 مجموعہ (گروپڈ)</h2>     
+<div id="groupedOutput" class="output-box"></div>   
+</div>    
 
-  <script>
-    let blended = []; // امتزاج کے بعد ذخیرہ
+<script>     
+let blended = [];      
 
-    document.getElementById("imtizaajButton").addEventListener("click", function () {
-      const input = document.getElementById("inputWord").value.replace(/\s+/g, '');
-      const output = document.getElementById("output");
-      const groupedOutput = document.getElementById("groupedOutput");
+document.getElementById("imtizaajButton").addEventListener("click", function () {       
+const input = document.getElementById("inputWord").value.replace(/\s+/g, '');       
+const output = document.getElementById("output");       
+const groupedOutput = document.getElementById("groupedOutput");        
 
-      if (input.length === 0) {
-        output.innerHTML = "<span style='color:red'>براہ کرم کوئی لفظ درج کریں۔</span>";
-        groupedOutput.innerHTML = "";
-        return;
-      }
+if (input.length === 0) {         
+output.innerHTML = "<span style='color:red'>براہ کرم کوئی لفظ درج کریں۔</span>";         
+groupedOutput.innerHTML = "";         
+return;       
+}        
 
-      // ✅ Base text
-      const baseText = "ا ل ل ه ل ا ا ل ه ا ل ا ھ و ا ل ح ی ا ل ق ى و م ل ا ت ا خ ذ ه س ن ة و ل ا ن و م ل ه م ا ف ى ا ل س م و ت و م ا ف ی ا ل ا ر ض م ن ذ ا ا ل ذ ى ى ش ف ع ع ن د ه ا ل ا ب ا ذ ن ه ی ع ل م م ا ب ی ن ا ی د ی ه م و م ا خ ل ف ه م و ل ا ی ح ی ط و ن ب ش ی م ن ع ل م ه ا ل ا ب م ا ش ا ء و س ع ک ر س ی ه ا ل س م و ت و ا ل ا ر ض و ل ا ی و د ه ح ف ظ ھ م ا و ه و ا ل ع ل ى ا ل ع ظ ى م";
+// ✅ Base text       
+const baseText = "ا ل ل ه ل ا ا ل ه ا ل ا ھ و ا ل ح ی ا ل ق ي و م ل ا ت ا خ ذ ه س ن ت و ل ا ن و م ل ه م ا ف ي ا ل س م و ت و م ا ف ي ا ل ا ر ض م ن ذ ا ا ل ذ ي ي ش ف ع ع ن د ه ا ل ا ب ا ذ ن ه ي ع ل م م ا ب ي ن ا ي د ي ه م و م ا خ ل ف ه م و ل ا ی ح ي ط و ن ب ش ي م ن ع ل م ه ا ل ا ب م ا ش ا ء و س ع ک ر س ی ه ا ل س م و ت و ا ل ا ر ض و ل ا ي و د ه ح ف ظ ھ م ا و ه و ا ل ع ل ي ا ل ع ظ ي م";        
 
-      const baseWords = baseText.split(" ");
-      const inputLetters = input.split("");
-      blended = [];
+const baseWords = baseText.split(" ");       
+const inputLetters = input.split("");       
+blended = [];        
 
-      // ✅ Blending loop
-      for (let i = 0; i < baseWords.length; i++) {
-        if (i === baseWords.length - 1) {
-          blended.push(baseWords[i]);
-        } else {
-          const letter = inputLetters[i % inputLetters.length];
-          blended.push(baseWords[i]);
-          blended.push(`<span class="inserted">${letter}</span>`);
-        }
-      }
+for (let i = 0; i < baseWords.length; i++) {         
+if (i === baseWords.length - 1) {           
+blended.push(baseWords[i]);         
+} else {           
+const letter = inputLetters[i % inputLetters.length];           
+blended.push(baseWords[i]);           
+blended.push(`<span class="inserted">${letter}</span>`);         
+}       
+}        
 
-      // show normal blended output first
-      output.innerHTML = blended.join(" ");
-      groupedOutput.innerHTML = ""; // reset
+output.innerHTML = blended.join(" ");       
+groupedOutput.innerHTML = "";        
+document.getElementById("groupOptions").style.display = "block";     
+});      
 
-      // show group options
-      document.getElementById("groupOptions").style.display = "block";
-    });
+document.getElementById("groupButton").addEventListener("click", function () {       
+const groupSize = parseInt(document.getElementById("groupSize").value);       
+const groupedOutput = document.getElementById("groupedOutput");        
 
-    document.getElementById("groupButton").addEventListener("click", function () {
-      const groupSize = parseInt(document.getElementById("groupSize").value);
-      const groupedOutput = document.getElementById("groupedOutput");
+let grouped = "";       
+for (let i = 0; i < blended.length; i++) {         
+grouped += blended[i];         
+if ((i + 1) % groupSize === 0) {           
+grouped += " ";         
+}       
+}        
 
-      let grouped = "";
-      for (let i = 0; i < blended.length; i++) {
-        grouped += blended[i];
-        if ((i + 1) % groupSize === 0) {
-          grouped += " "; // space after group
-        }
-      }
-
-      groupedOutput.innerHTML = grouped.trim();
-    });
-  </script>
-</body>
+groupedOutput.innerHTML = grouped.trim();     
+});   
+</script> 
+</body> 
 </html>

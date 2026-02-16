@@ -47,7 +47,7 @@
         color: #007bff;
     }
 
-    input[type="text"], select {
+    input[type="text"], input[type="number"], select {
         font-size: 1.1em;
         width: 100%;
         padding: 14px;
@@ -82,20 +82,25 @@
         border-radius: 12px;
         text-align: justify;
         font-family: inherit; /* Use uploaded font */
-        
-        /* Unified Color */
         color: black; 
     }
 
-    /* Unified Style: No red, no bold */
     .inserted {
-        color: inherit; /* Uses parent color (black) */
-        font-weight: normal; /* Removes bold */
+        color: inherit;
+        font-weight: normal;
     }
 
     /* Print Area (Hidden on Screen) */
     #printArea {
         display: none;
+    }
+
+    /* Print Options Wrapper */
+    #printOptions {
+        display: none;
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
     }
 
     /* --- PRINT STYLES --- */
@@ -114,7 +119,7 @@
         }
 
         /* Hide Interface */
-        .container, h1, input, button, #groupOptions, .file-upload-wrapper {
+        .container, h1, input, button, #groupOptions, .file-upload-wrapper, #printOptions {
             display: none !important;
         }
 
@@ -124,18 +129,11 @@
             width: 210mm; /* Full A4 width */
             min-height: 297mm;
             box-sizing: border-box;
-            
-            /* Add padding here to simulate margins */
             padding: 15mm; 
-            
-            /* FONT SIZE 17px */
             font-size: 17px !important; 
-            
-            /* Ensure uploaded font applies here */
             font-family: inherit; 
         }
 
-        /* The individual blocks */
         .print-block {
             text-align: justify;
             text-justify: inter-word;
@@ -150,7 +148,6 @@
             margin-bottom: 0;
         }
 
-        /* Force Black & Normal Weight in Print */
         .inserted {
             color: black !important;
             font-weight: normal !important; 
@@ -184,7 +181,11 @@
     <h2 style="margin-top:20px;">🔹 مجموعہ (گروپڈ)</h2>
     <div id="groupedOutput" class="output-box"></div>
     
-    <button id="printButton" style="display:none; background:#28a745; margin-top:20px;">🖨️ A4 PDF محفوظ کریں (17px)</button>
+    <div id="printOptions">
+        <label for="copyCount">🖨️ کاپیاں کی تعداد (Copies):</label>
+        <input type="number" id="copyCount" value="6" min="1" max="50">
+        <button id="printButton" style="background:#28a745;">🖨️ A4 PDF محفوظ کریں (17px)</button>
+    </div>
 </div>
 
 <div id="printArea"></div>
@@ -200,21 +201,17 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const fontUrl = e.target.result;
-            
-            // Create a dynamic style tag for the font
             const style = document.createElement('style');
             style.innerHTML = `
                 @font-face {
                     font-family: 'UploadedFont';
                     src: url('${fontUrl}');
                 }
-                body, .output-box, #printArea, input[type="text"] {
+                body, .output-box, #printArea, input[type="text"], input[type="number"] {
                     font-family: 'UploadedFont', 'Noto Naskh Arabic', serif !important;
                 }
             `;
             document.head.appendChild(style);
-            
-            // Alert user visually
             document.querySelector("h1").innerText = "امتزاج آیت الکرسی (فونٹ سیٹ ہو گیا)";
         };
         reader.readAsDataURL(file);
@@ -247,7 +244,7 @@
         
         document.getElementById("groupOptions").style.display = "block";
         output.innerHTML = "نیچے بٹن دبائیں...";
-        document.getElementById("printButton").style.display = "none";
+        document.getElementById("printOptions").style.display = "none";
     });
 
     // 2. Grouping Logic
@@ -265,17 +262,18 @@
         
         grouped = grouped.trim();
         groupedOutput.innerHTML = grouped;
-        document.getElementById("printButton").style.display = "block";
+        document.getElementById("printOptions").style.display = "block";
     });
 
-    // 3. Print Logic
+    // 3. Print Logic (Dynamic Copies)
     document.getElementById("printButton").addEventListener("click", function () {
         const content = document.getElementById("groupedOutput").innerHTML;
         const printArea = document.getElementById("printArea");
+        const copies = parseInt(document.getElementById("copyCount").value) || 6; // Default to 6 if empty
 
-        // Build the HTML structure (5 copies)
+        // Build the HTML structure based on user input
         let html = "";
-        for(let i=0; i<6; i++) {
+        for(let i=0; i < copies; i++) {
             html += `<div class="print-block">${content}</div>`;
         }
         printArea.innerHTML = html;
@@ -287,5 +285,3 @@
 </script>
 </body>
 </html>
-
-

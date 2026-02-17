@@ -9,7 +9,7 @@
 
     /* --- Screen Styles --- */
     body {
-        font-family: 'Noto Naskh Arabic', serif; /* Default until upload */
+        font-family: 'Noto Naskh Arabic', serif; /* Default until upload or fetch */
         background: linear-gradient(to bottom right, #f8fafd, #e0ecf8);
         margin: 0;
         padding: 20px;
@@ -47,6 +47,13 @@
         color: #007bff;
     }
 
+    /* Separator Style */
+    .separator {
+        margin: 10px 0;
+        color: #666;
+        font-weight: bold;
+    }
+
     input[type="text"], input[type="number"], select {
         font-size: 1.1em;
         width: 100%;
@@ -55,7 +62,7 @@
         border-radius: 8px;
         margin-bottom: 15px;
         box-sizing: border-box;
-        font-family: inherit; /* Use uploaded font */
+        font-family: inherit; /* Use uploaded/fetched font */
     }
 
     button {
@@ -72,6 +79,12 @@
     }
     button:hover { background: #0056b3; }
 
+    /* Specific style for the Fetch button */
+    #loadDefaultFontBtn {
+        background: #28a745; /* Green to distinguish it */
+    }
+    #loadDefaultFontBtn:hover { background: #218838; }
+
     .output-box {
         margin-top: 25px;
         background-color: #f9f9f9;
@@ -81,7 +94,7 @@
         line-height: 2.2;
         border-radius: 12px;
         text-align: justify;
-        font-family: inherit; /* Use uploaded font */
+        font-family: inherit; /* Use uploaded/fetched font */
         color: black; 
     }
 
@@ -163,6 +176,10 @@
     <div class="file-upload-wrapper">
         <label for="fontInput">🗛 اپنا فونٹ اپ لوڈ کریں (.ttf)</label>
         <input type="file" id="fontInput" accept=".ttf, .otf, .woff">
+        
+        <div class="separator">--- یا ---</div>
+
+        <button id="loadDefaultFontBtn">🗛 ڈیفالٹ فونٹ استعمال کریں</button>
     </div>
     
     <input id="inputWord" type="text" placeholder="مثلاً: سلیم">
@@ -193,26 +210,51 @@
 <script>
     let blended = [];
 
-    // 0. Font Upload Logic
+    // Function to apply font style (Used by both Upload and Default button)
+    function applyFontStyle(fontSource, isUrl) {
+        const style = document.createElement('style');
+        
+        // If it's a URL (from repo), use it directly. If it's data (upload), use it directly.
+        const src = isUrl ? `url('${fontSource}')` : `url('${fontSource}')`;
+
+        style.innerHTML = `
+            @font-face {
+                font-family: 'UploadedFont';
+                src: ${src};
+            }
+            body, .output-box, #printArea, input[type="text"], input[type="number"] {
+                font-family: 'UploadedFont', 'Noto Naskh Arabic', serif !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // 0a. Fetch Default Font from Repo
+    document.getElementById('loadDefaultFontBtn').addEventListener('click', function() {
+        // This path must match your GitHub repo structure relative to index.html
+        const fontPath = 'fonts/ayat_ul_kursi_font.ttf'; 
+        applyFontStyle(fontPath, true);
+        
+        document.querySelector("h1").innerText = "امتزاج آیت الکرسی (ڈیفالٹ فونٹ سیٹ ہو گیا)";
+        this.innerText = "✓ ڈیفالٹ فونٹ فعال ہے";
+        this.disabled = true; // Prevent multiple clicks
+    });
+
+    // 0b. Font Upload Logic
     document.getElementById('fontInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
         reader.onload = function(e) {
-            const fontUrl = e.target.result;
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @font-face {
-                    font-family: 'UploadedFont';
-                    src: url('${fontUrl}');
-                }
-                body, .output-box, #printArea, input[type="text"], input[type="number"] {
-                    font-family: 'UploadedFont', 'Noto Naskh Arabic', serif !important;
-                }
-            `;
-            document.head.appendChild(style);
+            const fontData = e.target.result;
+            applyFontStyle(fontData, false);
             document.querySelector("h1").innerText = "امتزاج آیت الکرسی (فونٹ سیٹ ہو گیا)";
+            
+            // Reset the default button if it was clicked previously
+            const defaultBtn = document.getElementById('loadDefaultFontBtn');
+            defaultBtn.innerText = "🗛 ڈیفالٹ فونٹ استعمال کریں";
+            defaultBtn.disabled = false;
         };
         reader.readAsDataURL(file);
     });
@@ -285,4 +327,3 @@
 </script>
 </body>
 </html>
-
